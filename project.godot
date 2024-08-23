@@ -10,14 +10,46 @@ config_version=5
 
 [application]
 
-config/name="Demo"
-run/main_scene="res://node_2d.tscn"
+config/name="Miourasaki's maked godot DEMO Game"
+run/main_scene="res://OpenScene/Initialize.tscn"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
+boot_splash/bg_color=Color(0.745098, 0.521569, 0.639216, 1)
+boot_splash/show_image=false
+boot_splash/fullsize=false
+boot_splash/use_filter=false
 config/icon="res://icon.svg"
+
+[autoload]
+
+MusicConsole="*res://ControlScene/MusicConsole.cs"
+GlobalControl="*res://ControlScene/GlobalControl.cs"
+
+[display]
+
+window/size/viewport_width=960
+window/size/viewport_height=540
 
 [dotnet]
 
 project/assembly_name="Demo"
+
+[input]
+
+left={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":65,"key_label":0,"unicode":97,"location":0,"echo":false,"script":null)
+]
+}
+right={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":68,"key_label":0,"unicode":100,"location":0,"echo":false,"script":null)
+]
+}
+jump={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"key_label":0,"unicode":32,"location":0,"echo":false,"script":null)
+]
+}
 
 [rendering]
 
