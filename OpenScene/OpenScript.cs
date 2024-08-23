@@ -10,7 +10,7 @@ public partial class OpenScript : Node
         timer += delta;
         if (timer >= durationTime)
         {
-            Animation osNode = GetNode<Animation>("/root/Initialize/OpenScreen");
+            Animation osNode = GetNode<Animation>("/root/Initialize/CanvasLayer/OpenScreen");
             osNode.EmitSignal("StopAnimation");
 
             // PackedScene tscn = ResourceLoader.Load<PackedScene>("res://ControlScene/Control.tscn");
