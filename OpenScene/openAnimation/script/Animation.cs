@@ -74,8 +74,8 @@ public partial class Animation : Control
 
 
         if (durationTime >= 0 && timer >= durationTime) this.EmitSignal("StopAnimation");
-
     }
+
 
     public void AnimationStop()
     {

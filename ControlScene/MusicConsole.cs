@@ -3,6 +3,10 @@ using System;
 
 public partial class MusicConsole : Node
 {
+    [Signal] public delegate void StartPlayEventHandler();
+    public void PlayStart() { audio.Play(); }
+
+
     private AudioStreamPlayer audio;
     private const string BASE_URI = "res://ControlScene/music/";
 
@@ -14,16 +18,15 @@ public partial class MusicConsole : Node
 
     public override void _Ready()
     {
+        this.Connect("StartPlay", new Callable(this, "PlayStart"));
         audio.Connect("finished", new Callable(this, "onFinished"));
-        audio.VolumeDb = -20;
+        audio.VolumeDb = -15;
 
 
         AudioStream bgmEITW = ResourceLoader.Load<AudioStream>(
             BASE_URI + "EchoInTheWind.tres"
         );
-
         audio.Stream = bgmEITW;
-        audio.Play();
     }
 
     public void onFinished()
