@@ -76,24 +76,52 @@ public partial class Player : CharacterBody3D
 
 	bool isSprint = false;
 	bool isSneak = false;
-
+	bool isFly = false;
+	double SpaceTimer = 0;
+	bool SpaceOne = false;
 
 	private Vector3 originModuleRotation;
 	public override void _PhysicsProcess(double delta)
 	{
+		SpaceTimer += delta;
+
 		Vector3 velocity = Velocity;
 
 		// Add the gravity & Handle Jump.
-		if (!IsOnFloor()) velocity += GetGravity() * (float)delta * 4;
-		if (Input.IsActionJustPressed("jump") && IsOnFloor()) velocity.Y = JumpVelocity;
+		if (!IsOnFloor() && !isFly) velocity += GetGravity() * (float)delta * 4;
+		else if (Input.IsActionJustPressed("jump") && IsOnFloor() && !isFly) velocity.Y = JumpVelocity;
+		else
+		{
+			if (Input.IsActionPressed("jump")) velocity.Y = 4f;
+			else if (Input.IsKeyPressed(Key.Ctrl)) velocity.Y = -4f;
+			else velocity.Y = 0;
+		};
+
+
+		if (Input.IsActionJustPressed("jump"))
+		{
+			if (SpaceOne && SpaceTimer < 0.3)
+			{
+				isFly = !isFly;
+				SpaceOne = false;
+			}
+			else if (!SpaceOne)
+			{
+				SpaceOne = true;
+				SpaceTimer = 0;
+			}
+		}
+		if (SpaceTimer >= 0.3 && SpaceOne) SpaceOne = false;
 
 
 		isSprint = Input.IsKeyPressed(Key.Shift);
 		isSneak = Input.IsKeyPressed(Key.Ctrl);
 		float speed;
-		if (isSneak) speed = Speed * 0.5f;
-		else if (isSprint) speed = Speed * 3;
+		if (isSneak) speed = Speed * 0.3f;
+		else if (isSprint) speed = Speed * 4;
 		else speed = Speed;
+
+		if (isFly) speed *= 2;
 
 		// Get the input direction and handle the movement/deceleration.
 		// As good practice, you should replace UI actions with custom gameplay actions.
@@ -122,7 +150,8 @@ public partial class Player : CharacterBody3D
 			velocity.Z = Mathf.MoveToward(Velocity.Z, 0, speed);
 		}
 
-		if (!IsOnFloor()) AnimationChange("jump");
+		if (!IsOnFloor() && !isFly) AnimationChange("jump");
+		else if (isFly) AnimationChange("fly");
 		else if (isSneak) AnimationChange("sneak");
 		else if (direction != Vector3.Zero)
 		{
